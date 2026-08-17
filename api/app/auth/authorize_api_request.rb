@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'ostruct'
+require 'tsort'
 
 # Extracted and simplified from rakamin-api.
 # Bearer token only (no basic auth — AI interview has no whitelist-key consumers).
@@ -31,7 +31,7 @@ class AuthorizeApiRequest
   attr_reader :headers
 
   def build_user_struct(claims)
-    OpenStruct.new(
+    Struct.new(:id, :role, :scheme).new(
       id:     claims[:user_id],
       role:   claims[:role].to_s,
       scheme: claims[:scheme].to_s

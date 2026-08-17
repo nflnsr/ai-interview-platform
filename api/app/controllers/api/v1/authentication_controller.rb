@@ -19,6 +19,16 @@ module Api
         json_response({ token:, user: { id: user.id, email: user.email, role: user.role } })
       end
 
+      def signup
+        user = User.new(params.permit(:email, :password, :role))
+
+        if user.save
+          json_response({ message: 'User created successfully' }, :created)
+        else
+          json_error('Failed to create user', :bad_request)
+        end
+      end
+
       private
 
       def resolve_scheme
